@@ -1,6 +1,7 @@
 clean:
 	rm -rf bin
 	rm -rf reports
+	rm -rf *.db
 
 test: clean
 	mkdir -p bin

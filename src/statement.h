@@ -39,6 +39,6 @@ PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement)
 
 ExecuteResult execute_statement(Statement* statement, Table* table);
 
-MetaCommandResult do_meta_command(InputBuffer* input_buffer);
+MetaCommandResult do_meta_command(InputBuffer* input_buffer, Table* table);
 
 #endif

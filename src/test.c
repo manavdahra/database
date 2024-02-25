@@ -3,6 +3,7 @@
 #include "statement.h"
 #include "minunit.h"
 
+const char* test_file_name = "test.db";
 InputBuffer *input_buffer;
 Table *table;
 
@@ -12,7 +13,7 @@ MU_TEST(test_meta_command_unrecognised_command)
     input_buffer->buffer = input;
     input_buffer->buffer_length = strlen(input);
     input_buffer->input_length = strlen(input);
-    mu_assert(do_meta_command(input_buffer) == META_UNRECOGNISED_COMMAND, "result should be META_UNRECOGNISED_COMMAND");
+    mu_assert(do_meta_command(input_buffer, table) == META_UNRECOGNISED_COMMAND, "result should be META_UNRECOGNISED_COMMAND");
 }
 
 MU_TEST(test_prepare_insert_statement_fail)
@@ -136,13 +137,13 @@ MU_TEST(test_prepare_insert_statement_id_negative)
 
 void test_setup(void)
 {
-    table = new_table();
+    table = db_open(test_file_name);
     input_buffer = new_input_buffer();
 }
 
 void test_teardown(void)
 {
-    free_table(table);
+    db_close(table);
     close_input_buffer(input_buffer);
 }
 

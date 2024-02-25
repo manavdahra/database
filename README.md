@@ -23,3 +23,8 @@ We’re going to start small by putting a lot of limitations on our database. Fo
 - support two operations: inserting a row and printing all rows
 - reside only in memory (no persistence to disk)
 - support a single, hard-coded table
+
+### Peristence to disk
+Components - 
+Table - Maintains file handle that persists data in raw bytes and uses a pager to hold pages.
+Pager - Tracks number of pages, serializes/deserializes the row data in raw bytes and writes them to disk.
