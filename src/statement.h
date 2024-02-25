@@ -1,5 +1,5 @@
-#ifndef __STATEMENT_H__
-#define __STATEMENT_H__
+#ifndef _STATEMENT_H_
+#define _STATEMENT_H_
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -32,7 +32,7 @@ typedef enum {
     META_UNRECOGNISED_COMMAND
 } MetaCommandResult;
 
-typedef struct InputBuffer {
+typedef struct {
     char* buffer;
     size_t buffer_length;
     ssize_t input_length;

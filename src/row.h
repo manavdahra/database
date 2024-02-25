@@ -1,5 +1,5 @@
-#ifndef __ROW_H__
-#define __ROW_H__
+#ifndef _ROW_H_
+#define _ROW_H_
 
 #include <stdlib.h>
 #include <stdio.h>

@@ -39,7 +39,7 @@ ExecuteResult execute_select(Statement* statement, Table* table) {
     Row row;
     for (uint32_t index = 0; index < table->num_rows; index++) {
         deserialize_row(row_slot(table, index), &row);
-        print_row(&row);
+        // print_row(&row);
     }
 
     return EXECUTE_SUCCESS;
