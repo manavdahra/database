@@ -5,31 +5,36 @@
 #include "input.h"
 #include "statement.h"
 
-void print_prompt() {
+void print_prompt()
+{
     printf("db > ");
 }
 
-void read_input(InputBuffer* input_buffer) {
+void read_input(InputBuffer *input_buffer)
+{
     ssize_t bytes_read = getline(&(input_buffer->buffer), &(input_buffer->buffer_length), stdin);
 
-    if (bytes_read == 0) {
+    if (bytes_read == 0)
+    {
         printf("Error reading input\n");
         exit(EXIT_FAILURE);
     }
 
     input_buffer->input_length = bytes_read - 1;
-    input_buffer->buffer[bytes_read-1] = 0;
+    input_buffer->buffer[bytes_read - 1] = 0;
 }
 
 int main(int argc, char const *argv[])
 {
-    Table* table = new_table();
-    InputBuffer* input_buffer = new_input_buffer();
-    while (true) {
+    Table *table = new_table();
+    InputBuffer *input_buffer = new_input_buffer();
+    while (true)
+    {
         print_prompt();
         read_input(input_buffer);
-        
-        if (input_buffer->buffer[0] == '.') {
+
+        if (input_buffer->buffer[0] == '.')
+        {
             switch (do_meta_command(input_buffer))
             {
             case META_COMMAND_SUCCESS:
