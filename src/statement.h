@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "row.h"
 #include "table.h"
+#include "input.h"
 
 typedef enum {
     EXECUTE_TABLE_FULL,
@@ -23,6 +24,8 @@ typedef struct Statement {
 
 typedef enum {
     PREPARE_SUCCESS,
+    PREPARE_NEGATIVE_ID,
+    PREPARE_STRING_TOO_LONG,
     PREPARE_UNRECOGNISED_STATEMENT,
     PREPARE_SYNTAX_ERROR
 } PrepareResult;
@@ -31,15 +34,6 @@ typedef enum {
     META_COMMAND_SUCCESS,
     META_UNRECOGNISED_COMMAND
 } MetaCommandResult;
-
-typedef struct {
-    char* buffer;
-    size_t buffer_length;
-    ssize_t input_length;
-} InputBuffer;
-
-InputBuffer* new_input_buffer();
-void close_input_buffer(InputBuffer* input_buffer);
 
 PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement);
 

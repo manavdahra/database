@@ -1,20 +1,41 @@
 #include <string.h>
+#include "input.h"
 #include "statement.h"
+
+PrepareResult prepare_insert(InputBuffer* input_buffer, Statement* statement) {
+    statement->type = STATEMENT_INSERT;
+    char* keyword = strtok(input_buffer->buffer, " ");
+    char* id_string = strtok(NULL, " ");
+    char* username_string = strtok(NULL, " ");
+    char* email_string = strtok(NULL, " ");
+
+    if (id_string == NULL || username_string == NULL || email_string == NULL) {
+        return PREPARE_SYNTAX_ERROR;
+    }
+
+    int id = atoi(id_string);
+    if (id < 0) {
+        return PREPARE_NEGATIVE_ID;
+    }
+    
+    if (strlen(username_string) > COLUMN_USERNAME_SIZE) {
+        return PREPARE_STRING_TOO_LONG;
+    }
+
+    if (strlen(email_string) > COLUMN_EMAIL_SIZE) {
+        return PREPARE_STRING_TOO_LONG;
+    }
+
+    statement->row_to_insert.id = id;
+    strcpy(statement->row_to_insert.username, username_string);
+    strcpy(statement->row_to_insert.email, email_string);
+
+    return PREPARE_SUCCESS;
+}
 
 PrepareResult prepare_statement(InputBuffer* input_buffer, Statement* statement) {
     if (strncmp(input_buffer->buffer, "insert", 6) == 0) {
-        int args_assigned = sscanf(
-            input_buffer->buffer, 
-            "insert %d %s %s", 
-            &(statement->row_to_insert.id),
-            &(statement->row_to_insert.username),
-            &(statement->row_to_insert.email)
-        );
-        if (args_assigned < 3) {
-            return PREPARE_SYNTAX_ERROR;
-        }
-        statement->type = STATEMENT_INSERT;
-        return PREPARE_SUCCESS;
+        return prepare_insert(input_buffer, statement);
     }
     if (strncmp(input_buffer->buffer, "select", 6) == 0) {
         statement->type = STATEMENT_SELECT;
@@ -39,7 +60,7 @@ ExecuteResult execute_select(Statement* statement, Table* table) {
     Row row;
     for (uint32_t index = 0; index < table->num_rows; index++) {
         deserialize_row(row_slot(table, index), &row);
-        // print_row(&row);
+        print_row(&row);
     }
 
     return EXECUTE_SUCCESS;
